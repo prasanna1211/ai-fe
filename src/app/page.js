@@ -14,7 +14,8 @@ export default () => {
   const [connected, setConnected] = useState(false)
 
   useEffect(() => {
-    wsRef.current = new WebSocket('ws://localhost:3001')
+    const wsUrl = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:3001'
+    wsRef.current = new WebSocket(wsUrl)
 
     wsRef.current.onopen = () => {
       console.log('Connected to WebSocket server')
