@@ -164,13 +164,6 @@ export default () => {
   return (
     <div className="min-h-screen bg-[#fcfcf9]">
       <div className="max-w-3xl mx-auto px-4 py-8">
-        <div className="flex items-center space-x-2 mb-6">
-          <div className={`w-2.5 h-2.5 rounded-full ${connected ? 'bg-green-500' : 'bg-red-500'}`} />
-          <span className="text-sm text-gray-600">
-            {connected ? 'Connected' : 'Disconnected'}
-          </span>
-        </div>
-
         <div
           className={cn(
             "fixed top-0 left-0 right-0 bg-[#fcfcf9] z-10 transition-all duration-300 ease-in-out",
@@ -196,6 +189,15 @@ export default () => {
                   isSearchExpanded ? "h-32" : "h-[40px]"
                 )}
               />
+              <div className={cn(
+                "absolute left-4 transition-all duration-300 flex items-center space-x-2",
+                isSearchExpanded ? "bottom-3" : "bottom-2"
+              )}>
+                <div className={`w-2 h-2 rounded-full ${connected ? 'bg-green-500' : 'bg-red-500'}`} />
+                <span className="text-xs text-gray-600">
+                  {connected ? 'Connected' : 'Disconnected'}
+                </span>
+              </div>
               <Button
                 onClick={handleSend}
                 disabled={!connected || !message}
