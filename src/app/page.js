@@ -18,7 +18,7 @@ export default () => {
   const lastScrollY = useRef(0)
 
   useEffect(() => {
-    const wsUrl = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:3001'
+    const wsUrl = process.env.NEXT_PUBLIC_WS_URL;
     wsRef.current = new WebSocket(wsUrl)
 
     wsRef.current.onopen = () => {
