@@ -56,24 +56,24 @@ export function Navbar({
         <div className="fixed top-0 left-0 right-0 h-14 bg-[#fcfcf9] border-b border-gray-200 z-20">
             <div className="max-w-3xl mx-auto h-full px-4 flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                    <h1 className="text-lg font-semibold text-gray-900">AI Search Assistant</h1>
+                    <h1 className="text-lg font-semibold text-gray-900 sm:text-base">AI Search Assistant</h1>
                 </div>
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-4 sm:space-x-2">
                     {session ? (
                         <>
                             <div className="text-sm text-gray-600 flex items-center space-x-1">
-                                <span className="font-medium">Total Usage:</span>
-                                <span>{tokenCount.toLocaleString()} tokens</span>
+                                <span className="font-medium hidden sm:inline">Total Usage:</span>
+                                <span>{tokenCount.toLocaleString()}<span className="hidden sm:inline"> tokens</span></span>
                             </div>
                             <div className="flex items-center space-x-2">
-                                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hidden sm:flex">
                                     <span className="text-sm font-medium text-gray-600">
                                         {getInitials(session.user?.name)}
                                     </span>
                                 </div>
                                 <button
                                     onClick={() => signOut()}
-                                    className="text-sm text-gray-600 hover:text-gray-900"
+                                    className="text-sm text-gray-600 hover:text-gray-900 whitespace-nowrap"
                                 >
                                     Sign out
                                 </button>

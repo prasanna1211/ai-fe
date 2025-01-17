@@ -190,16 +190,14 @@ export default () => {
 
   return (
     <div className="min-h-screen bg-[#fcfcf9]">
-      <Navbar
-        tokenCount={tokenCount}
-      />
-      <div className="max-w-3xl mx-auto px-4 pt-20 pb-8">
+      <Navbar tokenCount={tokenCount} />
+      <div className="max-w-3xl mx-auto px-4 sm:px-2 pt-20 pb-8">
         <div
           className={cn(
-            "fixed top-14 left-0 right-0 bg-[#fcfcf9] z-10 transition-all duration-300 ease-in-out",
+            "fixed top-14 left-0 right-0 bg-[#fcfcf9] z-10 transition-all duration-300 ease-in-out px-4 sm:px-2",
             isSearchExpanded
-              ? "h-[160px] pt-4 px-4"
-              : "h-[60px] pt-2 px-4"
+              ? "h-[160px] pt-4"
+              : "h-[60px] pt-2"
           )}
         >
           <div className="max-w-3xl mx-auto">
