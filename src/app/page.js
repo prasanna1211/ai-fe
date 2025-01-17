@@ -16,43 +16,60 @@ export default () => {
   const { data: session } = useSession()
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([])
-  const wsRef = useRef(null)
   const [connected, setConnected] = useState(false)
   const [isSearchExpanded, setIsSearchExpanded] = useState(true)
-  const lastScrollY = useRef(0)
+  const lastScrollY = useRef(0);
+  const [tokenCount, setTokenCount] = useState(0)
+  const wsRef = useRef(null)
 
   useEffect(() => {
-    if (!session) return // Don't connect if not authenticated
+    if (!session) return
 
     const wsUrl = process.env.NEXT_PUBLIC_WS_URL
     wsRef.current = new WebSocket(wsUrl)
 
+    // Make WebSocket available globally for navbar
+    window.aiWebSocket = wsRef.current
+
     wsRef.current.onopen = () => {
-      // Send authentication info
+      console.log('WebSocket connected')
       wsRef.current.send(JSON.stringify({
         type: 'auth',
-        token: session.accessToken
+        token: session.id_token
       }))
       setConnected(true)
     }
 
     wsRef.current.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      console.log('Received:', data)
+      try {
+        const data = JSON.parse(event.data);
 
-      if (data.key) {
-        setMessages(prev => [...prev, data])
+        if (data.key === 'auth_success' && data.user) {
+          console.log('Received initial token count:', data.user.count)
+          setTokenCount(data.user.count)
+        }
+        if (data.key === 'token_update' && typeof data.count === 'number') {
+          console.log('Received token count update:', data.count)
+          setTokenCount(data.count)
+        }
+        if (data.key) {
+          setMessages(prev => [...prev, data])
+        }
+      } catch (error) {
+        console.error('Error parsing message:', error)
       }
     }
 
     wsRef.current.onclose = () => {
-      console.log('Disconnected from WebSocket server')
+      console.log('WebSocket disconnected')
       setConnected(false)
+      window.aiWebSocket = null
     }
 
     return () => {
       if (wsRef.current) {
         wsRef.current.close()
+        window.aiWebSocket = null
       }
     }
   }, [session])
@@ -76,7 +93,7 @@ export default () => {
               <h3 className="text-[1.2rem] font-medium text-gray-900 mb-1.5">
                 <ShellLoader text={message.title} inline messageId={`${index}-title`} />
               </h3>
-              {message.steps.map((step, i) => (
+              {message?.steps?.map((step, i) => (
                 <p key={i} className="text-[1rem] text-gray-700 mb-1">
                   <ShellLoader text={step} inline messageId={`${index}-step-${i}`} />
                 </p>
@@ -173,7 +190,9 @@ export default () => {
 
   return (
     <div className="min-h-screen bg-[#fcfcf9]">
-      <Navbar />
+      <Navbar
+        tokenCount={tokenCount}
+      />
       <div className="max-w-3xl mx-auto px-4 pt-20 pb-8">
         <div
           className={cn(
