@@ -63,7 +63,7 @@ export function Navbar({
                         <>
                             <div className="text-sm text-gray-600 flex items-center space-x-1">
                                 <span className="font-medium hidden sm:inline">Total Usage:</span>
-                                <span>{tokenCount.toLocaleString()}<span className="hidden sm:inline"> tokens</span></span>
+                                <span>${tokenCount.toLocaleString()}<span className="hidden sm:inline"></span></span>
                             </div>
                             <div className="flex items-center space-x-2">
                                 <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center hidden sm:flex">

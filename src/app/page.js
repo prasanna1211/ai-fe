@@ -225,7 +225,7 @@ export default () => {
                   )}>
                     <div className={`w-2 h-2 rounded-full ${connected ? 'bg-green-500' : 'bg-red-500'}`} />
                     <span className="text-xs text-gray-600">
-                      {connected ? 'Connected' : 'Disconnected'}
+                      {connected ? 'Connected' : 'Disconnected (Try signing in again...)'}
                     </span>
                   </div>
                   <Button
